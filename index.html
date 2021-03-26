@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+  <title>Random Quote Machine</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@300&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@500&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@200;500&display=swap');
+ 
+    h1{
+      font-family: 'Raleway', sans-serif;
+      font-weight: 500;
+      text-align: center;
+      font-size:50px;
+    }
+    #quote-text{
+      font-family: 'Raleway', sans-serif;
+      font-size: 30px;
+      font-weight: 200;
+    }
+    #quoate-author{
+      font-family: 'Raleway', sans-serif;
+      font-size: 30px;
+      font-weight: 300;
+    }
+    
+.wrapper {
+    background:#fff;
+    padding: 60px;
+    margin: 41px 18%;
+    text-align: center;
+}
+button#tweet-quote , button#tweet {
+    border: none;
+    padding: 20px;
+    font-size: 20px;
+    font-family: 'Raleway', sans-serif;
+}
+.me{
+      font-family: 'Raleway', sans-serif;
+      font-weight: 500;
+      text-align: center;
+      font-size:22px;
+    }
+  </style>
+  <script>
+    var randomQuote = "";
+    var randomAuthor = "";
+
+    function getQuote() {
+      $.ajax({
+        url: "https://api.forismatic.com/api/1.0/?method=getQuote&lang=en&format=jsonp&jsonp=?",
+        method: "GET",
+        dataType: "jsonp",
+        /*If the data was successfully collected, create a function called request to request both quote and author */
+        success: function (request) {
+          /* We request the quote text an author to the empty string */
+          randomQuote = request.quoteText;/*quoateText comes from the URL*/
+          randomAuthor = request.quoteAuthor;/*quoateAuthor comes from the URL*/
+          /*We display the random codes from the page on h4 element*/
+          $('#quote-text').html(randomQuote);
+          /*If the qoute doesn't have author , make it unknown*/
+          if (randomAuthor === "") {
+            randomAuthor = "Unknown";
+          }
+          /*unless show the Author */
+          $('#quoate-author').html(randomAuthor);
+        },
+        /*If it was not successfuly , we show the error message from the text and button when clicked */
+        error: function (xhr, status, error) {
+          $('#quoate-text').text('Not sure what happened there! Click again to generate a new quote!');
+          $('#quoate-author').text('Click Below!');
+        }
+      });
+    }
+
+/*When the button id clicked , we call the Ajax function*/
+    $(document).ready(function () {
+      $("#tweet-quote").click(function () {
+        getQuote();
+      });
+      $("#tweet").click(function () {
+        var url = "https://twitter.com/intent/tweet?text=\"" + randomQuote + "\" -" + randomAuthor;
+        $("#tweet").attr('href', url);
+        window.open(url);
+      });
+    });
+
+  </script>
+</head>
+
+<body style="background-color:#FFFDD0">
+  <h1 class="title">Random Quote Generator</h1>
+  <div class="wrapper">
+    <!--I can see a wrapper element with a corresponding id="quote-box".-->
+    <div id="quote-box">
+      <!--Within #quote-box, I can see an element with a corresponding id="text".-->
+      <div id="quote-text">
+        <h4></h4>
+      </div>
+      <br>
+      <!-- Within #quote-box, I can see an element with a corresponding id="author".-->
+      <div id="quoate-author">
+      </div>
+      <!-- Within #quote-box, I can see an element with a corresponding id="new-quote".-->
+      <div id="new-quote">
+      </div>
+      <!-- Within #quote-box, I can see a clickable a element with a corresponding id="tweet-quote".-->
+      <br>
+      <button id="tweet-quote">New quote</button>
+      <button id="tweet">Tweet</button>
+    </div>
+  </div>
+  <p class="me">by Pretty Kunene</p>
+</body>
+
+</html>
