@@ -6,4 +6,4 @@ https://api.forismatic.com/api/1.0/?method=getQuote&lang=en&format=jsonp&jsonp=?
 
 Click the link below 
 https://nonoza.github.io/random/
-![Google Clon Cover] https://i.ibb.co/6mxY8MM/random.png
+![Google Clon Cover] (https://i.ibb.co/6mxY8MM/random.png)
